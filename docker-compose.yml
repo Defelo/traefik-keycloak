@@ -1,0 +1,41 @@
+version: '3.7'
+
+services:
+  traefik:
+    image: traefik
+    command:
+      - "--api.insecure"
+      - "--providers.docker"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - 127.0.0.1:80:80
+    labels:
+      traefik.enable: true
+      traefik.http.routers.traefik.rule: Host("traefik.localhost")
+      traefik.http.services.traefik.loadbalancer.server.port: 8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - traefik-keycloak
+
+  traefik-keycloak:
+    image: defelo/traefik-keycloak
+    restart: always
+    env_file: traefik-keycloak.env
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
+    restart: always
+
+  whoami:
+    image: traefik/whoami
+    restart: always
+    labels:
+      traefik.enable: true
+      traefik.http.routers.whoami.rule: Host("localhost")
+
+      traefik.http.middlewares.keycloak.forwardauth.address: http://traefik-keycloak/foo
+      traefik.http.routers.whoami.middlewares: keycloak

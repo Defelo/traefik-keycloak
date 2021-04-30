@@ -8,7 +8,7 @@ CLIENT_ID = environ["CLIENT_ID"]
 CLIENT_SECRET = environ["CLIENT_SECRET"]
 
 HOST = getenv("HOST", "0.0.0.0")
-PORT = int(getenv("PORT", "8080"))
+PORT = int(getenv("PORT", "80"))
 
 REDIS_HOST = getenv("REDIS_HOST", "redis")
 REDIS_PORT = int(getenv("REDIS_PORT", "6379"))
