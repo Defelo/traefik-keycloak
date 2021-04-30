@@ -64,7 +64,8 @@ async def refresh_access_token(state: str) -> Optional[str]:
 async def get_userinfo(state: str) -> Optional[dict]:
     async def request(token: str):
         async with ClientSession() as session, session.get(
-            USERINFO_URL, headers={"Authorization": f"Bearer {token}"}
+            USERINFO_URL,
+            headers={"Authorization": f"Bearer {token}"},
         ) as resp:
             if resp.ok:
                 return await resp.json()
@@ -148,19 +149,17 @@ async def auth(
 
     redirect_uri: str = urljoin(protocol + "://" + host, request_uri)
 
-    return RedirectResponse(
-        AUTH_URL
-        + "?"
-        + urlencode(
-            {
-                "client_id": CLIENT_ID,
-                "redirect_uri": urljoin(redirect_uri, oauth_path),
-                "response_type": "code",
-                "scope": "openid",
-                "state": redirect_uri,
-            }
-        )
+    url = AUTH_URL + "?"
+    url += urlencode(
+        {
+            "client_id": CLIENT_ID,
+            "redirect_uri": urljoin(redirect_uri, oauth_path),
+            "response_type": "code",
+            "scope": "openid",
+            "state": redirect_uri,
+        },
     )
+    return RedirectResponse(url)
 
 
 if __name__ == "__main__":

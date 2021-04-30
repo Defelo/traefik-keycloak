@@ -7,7 +7,7 @@ USERINFO_URL = environ["USERINFO_URL"]
 CLIENT_ID = environ["CLIENT_ID"]
 CLIENT_SECRET = environ["CLIENT_SECRET"]
 
-HOST = getenv("HOST", "0.0.0.0")
+HOST = getenv("HOST", "0.0.0.0")  # noqa: S104
 PORT = int(getenv("PORT", "80"))
 
 REDIS_HOST = getenv("REDIS_HOST", "redis")
