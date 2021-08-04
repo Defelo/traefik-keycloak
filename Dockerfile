@@ -2,7 +2,7 @@ FROM python:3.9-alpine AS builder
 
 RUN apk add --no-cache \
     build-base~=0.5 \
-    gcc~=10.2 \
+    gcc~=10.3 \
     musl-dev~=1.2 \
     libffi-dev~=3.3
 
